@@ -54,6 +54,7 @@ stages:
             notifyUsers: 'bipinsngh16@gmail.com'
             approvers: 'bipinsngh16@gmail.com'
             instructions: 'Pls approve'
+
   - stage: Apply
     dependsOn: ManualIntervention
     jobs:
@@ -73,9 +74,6 @@ stages:
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
-            command: 'init'
+            command: 'apply'
             workingDirectory: '$(workingDirectory)'
-            backendServiceArm: '$(AZURE_SERVICE_CONNECTION)'
-            backendAzureRmStorageAccountName: '$(BACKEND_STORAGE_ACCOUNT)'
-            backendAzureRmContainerName: '$(BACKEND_CONTAINER)'
-            backendAzureRmKey: '$(BACKEND_KEY_DEV)'
+            environmentServiceNameAzureRM: '$(AZURE_SERVICE_CONNECTION)'

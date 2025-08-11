@@ -8,7 +8,7 @@ variables:
   BACKEND_CONTAINER: 'tfstate'
   BACKEND_KEY_DEV: 'dev.terraform.tfstate'
   AZURE_SERVICE_CONNECTION: 'microtodoui-dev-eus'
-  workingDirectory: 'workingDirectory'
+  workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
 
 stages:
   - stage: erraform_Dev

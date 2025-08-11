@@ -1,0 +1,44 @@
+trigger:
+ branches:
+   include:
+     - main
+variables:
+  BACKEND_RESOURCE_GROUP: 'rg-tf-backend'
+  BACKEND_STORAGE_ACCOUNT: 'sttfbackend001'
+  BACKEND_CONTAINER: 'tfstate'
+  BACKEND_KEY_DEV: 'dev.terraform.tfstate'
+  BACKEND_KEY_PROD: 'prod.terraform.tfstate'
+  AZURE_SERVICE_CONNECTION: microtodoui-dev-eus
+stages:
+  - stage: erraform_Dev
+    displayName: "Terraform Dev Deployment"
+    jobs:
+      - job: Dev
+        pool:
+         name: microtodoui
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev/'
+            backendServiceArm: 'm$(AZURE_SERVICE_CONNECTION)'
+            backendAzureRmStorageAccountName: '$(BACKEND_STORAGE_ACCOUNT)'
+            backendAzureRmContainerName: '$(BACKEND_CONTAINER)'
+            backendAzureRmKey: '$(BACKEND_KEY_DEV)'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/dev/env/'
+
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            environmentServiceNameAzureRM: '$(AZURE_SERVICE_CONNECTION)'
+

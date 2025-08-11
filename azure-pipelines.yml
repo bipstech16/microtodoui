@@ -3,12 +3,12 @@ trigger:
    include:
      - main
 variables:
-  BACKEND_RESOURCE_GROUP: 'rg-tf-backend'
-  BACKEND_STORAGE_ACCOUNT: 'sttfbackend001'
+  BACKEND_RESOURCE_GROUP: 'rg-tfstate-devops-eus-01'
+  BACKEND_STORAGE_ACCOUNT: 'satfstateeus01'
   BACKEND_CONTAINER: 'tfstate'
   BACKEND_KEY_DEV: 'dev.terraform.tfstate'
-  BACKEND_KEY_PROD: 'prod.terraform.tfstate'
   AZURE_SERVICE_CONNECTION: 'microtodoui-dev-eus'
+  workingDirectory: 'workingDirectory'
 
 stages:
   - stage: erraform_Dev
@@ -26,7 +26,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev/'
+            workingDirectory: '$(workingDirectory)'
             backendServiceArm: '$(AZURE_SERVICE_CONNECTION)'
             backendAzureRmStorageAccountName: '$(BACKEND_STORAGE_ACCOUNT)'
             backendAzureRmContainerName: '$(BACKEND_CONTAINER)'
@@ -35,11 +35,12 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'validate'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/dev/env/'
+            workingDirectory: '$(workingDirectory)'
 
         - task: TerraformTask@5
           inputs:
             provider: 'azurerm'
             command: 'plan'
+            workingDirectory: '$(workingDirectory)'
             environmentServiceNameAzureRM: '$(AZURE_SERVICE_CONNECTION)'
 

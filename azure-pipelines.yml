@@ -8,7 +8,8 @@ variables:
   BACKEND_CONTAINER: 'tfstate'
   BACKEND_KEY_DEV: 'dev.terraform.tfstate'
   BACKEND_KEY_PROD: 'prod.terraform.tfstate'
-  AZURE_SERVICE_CONNECTION: microtodoui-dev-eus
+  AZURE_SERVICE_CONNECTION: 'microtodoui-dev-eus'
+
 stages:
   - stage: erraform_Dev
     displayName: "Terraform Dev Deployment"
@@ -26,7 +27,7 @@ stages:
             provider: 'azurerm'
             command: 'init'
             workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev/'
-            backendServiceArm: 'm$(AZURE_SERVICE_CONNECTION)'
+            backendServiceArm: '$(AZURE_SERVICE_CONNECTION)'
             backendAzureRmStorageAccountName: '$(BACKEND_STORAGE_ACCOUNT)'
             backendAzureRmContainerName: '$(BACKEND_CONTAINER)'
             backendAzureRmKey: '$(BACKEND_KEY_DEV)'

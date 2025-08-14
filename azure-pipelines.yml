@@ -56,7 +56,7 @@ stages:
             instructions: 'Pls approve'
 
   - stage: Apply
-    dependsOn: ManualIntervention
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
     jobs:
       - job: Apply
         pool:

@@ -16,7 +16,7 @@ stages:
     jobs:
       - job: Dev
         pool:
-         name: microtodoui
+         name: Default
         steps:
         - task: TerraformInstaller@1
           inputs:
@@ -60,7 +60,7 @@ stages:
     jobs:
       - job: Apply
         pool:
-         name: microtodoui
+         name: Default
         steps:
         - task: TerraformInstaller@1
           inputs:

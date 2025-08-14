@@ -11,7 +11,7 @@ variables:
   workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
 
 stages:
-  - stage: erraform_Dev
+  - stage: Terraform_Dev
     displayName: "Terraform Dev Deployment"
     jobs:
       - job: Dev
